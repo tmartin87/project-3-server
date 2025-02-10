@@ -19,5 +19,5 @@ ehthumbs.db
 *.lnk
 
 
-# VS Code
-.vscode/*
+# # VS Code
+# .vscode/*
