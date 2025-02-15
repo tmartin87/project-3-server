@@ -1,4 +1,5 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const plansSchema = new Schema(
 
@@ -6,6 +7,11 @@ const plansSchema = new Schema(
         user:{
                 type:Schema.Types.ObjectId,
                 ref:"User"
+        },
+
+        name:{
+                type:String,
+                require: true
         },
 
         details:{
@@ -25,7 +31,7 @@ const plansSchema = new Schema(
 
         frequency:{
                 type: String,
-                enum:["daily", "weekly", "monthly"]
+                enum:["daily", "weekly", "monthly", "once"]
         },
 
         image:{
@@ -50,6 +56,6 @@ const plansSchema = new Schema(
 
     }
 )
-const Plan = model("Plans", plansSchema);
+const Plan = mongoose.model("Plan", plansSchema);
 
 module.exports = Plan;

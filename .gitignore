@@ -20,4 +20,5 @@ ehthumbs.db
 
 
 # # VS Code
-# .vscode/*
+# .vscode
+.vscode
