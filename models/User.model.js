@@ -1,7 +1,8 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const userSchema = new Schema(
+const UserSchema = new Schema(
   {
     email: {
       type: String,
@@ -18,6 +19,23 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    image:{
+      type: String,
+      default: "https://static-00.iconduck.com/assets.00/profile-major-icon-1024x1024-9rtgyx30.png"
+    },
+    createdPlans:{
+      type:Schema.Types.ObjectId,
+      ref:"Plan" 
+    },
+    attendence:{
+      type:Schema.Types.ObjectId,
+      ref:"Plan"
+    },
+    comments:{
+      type:Schema.Types.ObjectId,
+      ref:"Comment"
+
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
@@ -25,6 +43,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

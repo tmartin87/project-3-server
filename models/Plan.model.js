@@ -52,9 +52,13 @@ const plansSchema = new Schema(
                 type:Schema.Types.ObjectId,
                 ref: "Comments"
         }
-    
+        
 
-    }
+    },
+    {
+       
+        timestamps: true,
+      }
 )
 const Plan = mongoose.model("Plan", plansSchema);
 
