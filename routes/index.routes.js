@@ -87,7 +87,7 @@ router.delete("/plans/:planId",(req, res)=>{
 
 // Get route
 
-router.get("/users/:userId" ,(req,res)=>{
+/* router.get("/users/:userId" ,(req,res)=>{
   User.findById(userId)
   .then((user)=>{
     res.json(user);
@@ -108,7 +108,7 @@ router.put("/users/:userId", (req,res)=>{
   .catch((error)=>{
     res.status(500).json({message: "failed updating a user"})
   })
-})
+}) */
 
 // Post user
 
