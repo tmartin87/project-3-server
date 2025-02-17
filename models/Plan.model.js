@@ -11,12 +11,12 @@ const plansSchema = new Schema(
 
         name:{
                 type:String,
-                require: true
+                required: true
         },
 
         details:{
                 type:String,
-                require: true
+                required: true
         },
 
         date:{
@@ -26,7 +26,7 @@ const plansSchema = new Schema(
 
         location:{
                 type: String,
-                require : true
+                required : true
         },
 
         frequency:{

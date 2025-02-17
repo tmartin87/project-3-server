@@ -5,7 +5,7 @@ const router = express.Router();
 const Comment = require("../models/Comment.model")
 
 //Post route
-router.post("/comments", (req, res) => {
+router.post("/comments", (req, res, next) => {
     Comment.create({
         user: req.body.user,
         favorites: req.body.favorites,
@@ -17,20 +17,18 @@ router.post("/comments", (req, res) => {
 .then((createComment) => {
     res.status(201).json(createComment)
 })
-.catch((error) => {
-    res.status(500).json({message: "failed to create a comment"})
+.catch((err) => next(err))
 })
-});
+
 
 //Delete route
-router.delete("/comments/:commentId", (req, res) => {
+router.delete("/comments/:commentId", (req, res, next ) => {
     Comment.findByIdAndDelete(req.params.commentId)
     .then((comment) => {
         res.json(comment);
     })
-    .catch((error) => {
-        res.status(500).json({message: "failed deleting a comment"})
-    })
+    .catch((err) => next(err))
+    
 })
 
 module.exports = router;

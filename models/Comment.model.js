@@ -13,11 +13,11 @@ const commentsSchema = new Schema({
     plan: {
         type:Schema.Types.ObjectId,
         ref:"Plan",
-        require: true
+        required: true
     },
     comments: {
         type: String,
-        require: true
+        required: true
     },
     createdDate: {
         type: Date,

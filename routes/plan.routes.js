@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+//Import isAuthenticated
+
+const {isAuthenticated} = require("../middleware/jwt.middleware")
 
 //import models
 const Plan = require("../models/Plan.model");
@@ -17,23 +20,19 @@ router.get("/plans", (req, res, next) => {
     .then((allPlans) => {
       res.status(200).json(allPlans);
     })
-    .catch((error) => {
-      res.status(500).json({ message: "Plans not found" });
-    });
+    .catch((err) => next(err))
 });
 
-router.get("/plans/:planId", (req, res, next) => {
+router.get("/plans/:planId",  (req, res, next) => {
   Plan.findById(planId)
     .then((plan) => {
       res.status(200).json(plan);
     })
-    .catch((error) => {
-      res.status(500).json({ message: "Plan not found" });
-    });
+    .catch((err) => next(err))
 });
 
 //Post route
-router.post("/plans", (req, res) => {
+router.post("/plans", isAuthenticated, (req, res, next) => {
   Plan.create(
     {
       user: req.body.user,
@@ -51,34 +50,29 @@ router.post("/plans", (req, res) => {
     .then((createPlan) => {
       res.status(201).json(createPlan);
     })
-    .catch((error) => {
-      res.status(500).json({ message: "failed to create plan" });
-    });
+    .catch((err) => next(err))
 });
 
 // Put route
 
-router.put("/plans/:planId", (req, res)=>{
+router.put("/plans/:planId", isAuthenticated, (req, res, next)=>{
   Plan.findByIdAndUpdate(req.params.planId, req.body,{new:true})
+  .populate("Cnomments")
   .then((plan)=>{
     res.json(plan);
   })
-  .catch((error)=>{
-    res.status(500).json({message: "failed updating a plan"})
-  })
+  .catch((err) => next(err))
   
 })
 
 // Delete route
 
-router.delete("/plans/:planId",(req, res)=>{
+router.delete("/plans/:planId", isAuthenticated, (req, res, next)=>{
   Plan.findByIdAndDelete(req.params.planId)
   .then((plan)=>{
     res.json(plan);
   })
-  .catch((error)=>{
-    res.status(500).json({message: "failed deleting a plan"})
-  })
+  .catch((err) => next(err))
 })
 
 
