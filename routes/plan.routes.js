@@ -57,7 +57,7 @@ router.post("/plans", isAuthenticated, (req, res, next) => {
 
 router.put("/plans/:planId", isAuthenticated, (req, res, next)=>{
   Plan.findByIdAndUpdate(req.params.planId, req.body,{new:true})
-  .populate("Comments")
+  .populate("comments")
   .then((plan)=>{
     res.json(plan);
   })
