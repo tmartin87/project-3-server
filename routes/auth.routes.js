@@ -130,6 +130,7 @@ router.put("/:userId", isAuthenticated, (req, res, next) => {
 
 //GET
 router.get("/:userId", isAuthenticated, (req, res, next) => {
+  const userId= "";
   User.findById(userId)
     .then((user) => {
       res.status(200).json(user);

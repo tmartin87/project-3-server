@@ -8,9 +8,8 @@ const Comment = require("../models/Comment.model")
 router.post("/comments", (req, res, next) => {
     Comment.create({
         user: req.body.user,
-        favorites: req.body.favorites,
         plan: req.body.plan,
-        comments: req.body.comments,
+        details: req.body.details,
         createdDate: req.body.createdDate 
     }, {new:true}
 )

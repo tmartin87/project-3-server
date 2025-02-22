@@ -19,23 +19,29 @@ const UserSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    image:{
+    image: {
       type: String,
-      default: "https://static-00.iconduck.com/assets.00/profile-major-icon-1024x1024-9rtgyx30.png"
+      default:
+        "https://static-00.iconduck.com/assets.00/profile-major-icon-1024x1024-9rtgyx30.png",
     },
-    createdPlans:{
-      type:Schema.Types.ObjectId,
-      ref:"Plan" 
-    },
-    attendence:{
-      type:Schema.Types.ObjectId,
-      ref:"Plan"
-    },
-    comments:{
-      type:Schema.Types.ObjectId,
-      ref:"Comment"
-
-    }
+    createdPlans: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Plan",
+      },
+    ],
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    myPlans: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Plan",
+      },
+    ],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

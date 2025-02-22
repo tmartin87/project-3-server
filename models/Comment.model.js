@@ -7,16 +7,13 @@ const commentsSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    favorites: {
-      type: Boolean,
-      default: false,
-    },
+
     plan: {
       type: Schema.Types.ObjectId,
       ref: "Plan",
       required: true,
     },
-    comments: {
+    details: {
       type: String,
       required: true,
     },
