@@ -36,9 +36,10 @@ router.post("/plans", isAuthenticated, (req, res, next) => {
   Plan.create(
     {
       user: req.body.user,
-      name: req.body.name,
+      title: req.body.title,
       details: req.body.details,
       date: req.body.date,
+      isPrivate: req.body.isPrivate,
       location: req.body.location,
       frequency: req.body.frequency,
       image: req.body.image,

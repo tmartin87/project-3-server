@@ -13,11 +13,6 @@ const plansSchema = new Schema(
                 ref:"User"
         },
 
-        name:{
-                type:String,
-                required: true
-        },
-
         details:{
                 type:String,
                 required: true
