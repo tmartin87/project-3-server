@@ -28,6 +28,11 @@ const plansSchema = new Schema(
                 default: Date.now
         },
 
+        isPrivate: {
+                type: Boolean,
+                default: false,
+        },
+
         location:{
                 type: String,
                 required : true
