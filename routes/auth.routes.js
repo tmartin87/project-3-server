@@ -118,6 +118,25 @@ router.post("/login", (req, res, next) => {
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
 
+//PUT  /auth/:userId  - Edit user profile
+router.put("/:userId", isAuthenticated, (req, res, next) => {
+  User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => next(err));
+});
+
+
+//GET
+router.get("/:userId", isAuthenticated, (req, res, next) => {
+  User.findById(userId)
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => next(err));
+});
+
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
