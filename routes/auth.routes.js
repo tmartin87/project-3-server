@@ -119,14 +119,14 @@ router.post("/login", (req, res, next) => {
 });
 
 //PUT  /auth/:userId  - Edit user profile
-router.put("/:userId", isAuthenticated, (req, res, next) => {
+/* router.put("/:userId", isAuthenticated, (req, res, next) => {
   User.findByIdAndUpdate(req.params.userId, req.body, { new: true })
     .then((user) => {
       res.json(user);
     })
     .catch((err) => next(err));
 });
-
+ */
 
 //GET
 /* router.get("/:userId", isAuthenticated, (req, res, next) => {
