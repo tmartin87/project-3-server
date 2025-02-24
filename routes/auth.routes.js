@@ -129,18 +129,6 @@ router.post("/login", (req, res, next) => {
 
 
 
-<<<<<<< HEAD
-=======
-//GET
-/* router.get("/:userId", isAuthenticated, (req, res, next) => {
-  const userId= "";
-  User.findById(userId)
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch((err) => next(err));
-}); */
->>>>>>> 09ae28339b74ac9a725ff1fb85eb900614a645a7
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
