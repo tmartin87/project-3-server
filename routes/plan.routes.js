@@ -34,6 +34,7 @@ router.get("/plans/:planId", (req, res, next) => {
 
 //Post route
 router.post("/plans", isAuthenticated, (req, res, next) => {
+  console.log(req.body)
   Plan.create(
     {
       user: req.body.user,
@@ -44,10 +45,8 @@ router.post("/plans", isAuthenticated, (req, res, next) => {
       location: req.body.location,
       frequency: req.body.frequency,
       image: req.body.image,
-      attendance: req.body.attendance,
-      comments: req.body.comments,
-    },
-    { new: true }
+      comments: req.body.comments
+    }
   )
     .then((createPlan) => {
       res.status(201).json(createPlan);
