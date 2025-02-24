@@ -127,8 +127,25 @@ router.post("/login", (req, res, next) => {
 //     .catch((err) => next(err));
 // });
 
+//PUT /auth/:userId/my-plans
+router.put("/:userId/my-plans", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+  const { planId } = req.body;
+  User.findByIdAndUpdate(
+    userId,
+    {
+      $push: {
+        myPlans: planId,
+      },
+    },
+    { new: true }
+  )
+    .then((user) => {
+      res.json(user);
+    })
 
-
+    .catch((err) => next(err));
+});
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
