@@ -147,6 +147,16 @@ router.put("/:userId/my-plans", isAuthenticated, (req, res, next) => {
     .catch((err) => next(err));
 });
 
+//GET /auth/user/:userId
+router.get("/user/:userId", isAuthenticated, (req, res, next) => {
+  const { userId } = req.body;
+  User.findById(userId)
+  .then((user) => {
+    res.status(200).json(user);
+  })
+  .catch((err) => next(err));
+})
+
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
