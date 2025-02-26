@@ -24,17 +24,17 @@ router.get("/plans", (req, res, next) => {
 });
 
 router.get("/plans/public", (req, res, next) => {
-  Plan.find({isPrivate:false})
+  Plan.find({ isPrivate: false })
     .then((allPublicPlans) => {
       res.status(200).json(allPublicPlans);
     })
     .catch((err) => next(err));
 });
 
-router.get("/plans/:userId/my-created-plans", (req,res,next)=>{
+router.get("/plans/:userId/my-created-plans", (req, res, next) => {
   const { userId } = req.params;
-  User.findById(userId).populate("createdPlans")
-})
+  User.findById(userId).populate("createdPlans");
+});
 
 router.get("/plans/:planId", (req, res, next) => {
   const { planId } = req.params;
@@ -47,20 +47,18 @@ router.get("/plans/:planId", (req, res, next) => {
 
 //Post route
 router.post("/plans", isAuthenticated, (req, res, next) => {
-  console.log(req.body)
-  Plan.create(
-    {
-      user: req.body.user,
-      title: req.body.title,
-      details: req.body.details,
-      date: req.body.date,
-      isPrivate: req.body.isPrivate,
-      location: req.body.location,
-      frequency: req.body.frequency,
-      image: req.body.image,
-      comments: req.body.comments
-    }
-  )
+  
+  Plan.create({
+    user: req.body.user,
+    title: req.body.title,
+    details: req.body.details,
+    date: req.body.date,
+    isPrivate: req.body.isPrivate,
+    location: req.body.location,
+    frequency: req.body.frequency,
+    image: req.body.image,
+    comments: req.body.comments,
+  })
     .then((createPlan) => {
       res.status(201).json(createPlan);
     })
