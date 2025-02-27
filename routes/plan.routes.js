@@ -41,6 +41,7 @@ router.get("/plans/:planId", (req, res, next) => {
   Plan.findById(planId)
     .populate("user")
     .then((plan) => {
+      console.log('Plan:', plan);
       res.status(200).json(plan);
     })
     .catch((err) => next(err));
