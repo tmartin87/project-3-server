@@ -33,8 +33,8 @@ router.get("/plans/public", (req, res, next) => {
 
 router.get("/plans/:userId/my-created-plans", (req, res, next) => {
   const { userId } = req.params;
-  User.findById(userId).populate("createdPlans");
-});
+  User.findById(userId).populate("createdPlans")
+})
 
 router.get("/plans/:planId", (req, res, next) => {
   const { planId } = req.params;
