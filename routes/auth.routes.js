@@ -149,13 +149,13 @@ router.put("/:userId/my-plans", isAuthenticated, (req, res, next) => {
 
 //GET /auth/user/:userId
 router.get("/user/:userId", isAuthenticated, (req, res, next) => {
-  const { userId } = req.body;
+  const { userId } = req.params;
   User.findById(userId)
-  .then((user) => {
-    res.status(200).json(user);
-  })
-  .catch((err) => next(err));
-})
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => next(err));
+});
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
@@ -165,6 +165,28 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
 
   // Send back the token payload object containing the user data
   res.status(200).json(req.payload);
+});
+
+//GET /auth/user/:userId/created-plans
+router.get("/user/:userId/created-plans", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .populate("createdPlans")
+    .then((user) => {
+      res.status(200).json(user.createdPlans);
+    })
+    .catch((err) => next(err));
+});
+
+//GET /auth/user/:userId/my-plans
+router.get("/user/:userId/my-plans", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .populate("myPlans")
+    .then((user) => {
+      res.status(200).json(user.myPlans);
+    })
+    .catch((err) => next(err));
 });
 
 module.exports = router;
