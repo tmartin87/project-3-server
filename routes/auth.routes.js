@@ -148,8 +148,9 @@ router.put("/:userId/my-plans", isAuthenticated, (req, res, next) => {
 });
 
 //GET /auth/user/:userId
-router.get("/user/:userId", isAuthenticated, (req, res, next) => {
+router.get("/user/", isAuthenticated, (req, res, next) => {
   const { userId } = req.body;
+  console.log(req.body);
   User.findById(userId)
   .then((user) => {
     res.status(200).json(user);
