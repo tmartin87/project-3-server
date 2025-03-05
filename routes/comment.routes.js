@@ -8,7 +8,7 @@ const Comment = require("../models/Comment.model");
 router.delete("/comments/:commentId", (req, res, next) => {
   Comment.findById(req.params.commentId)
     .then((comment) => {
-      if (!comment.user.equals(req.user._id)) {
+      if (!comment.user == req.payload._id) {
         return res.status(403).json({ message: "No se puede borrar" });
       }
       return Comment.findByIdAndDelete(req.params.commentId);
