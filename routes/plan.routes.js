@@ -50,7 +50,7 @@ router.get("/plans/:planId", (req, res, next) => {
 //Post route
 router.post("/plans", isAuthenticated, (req, res, next) => {
   console.log(req.body);
-  Plan.create({
+  Plan.create({ 
     user: req.body.user,
     title: req.body.title,
     details: req.body.details,
