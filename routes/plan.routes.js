@@ -7,6 +7,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 //import models
 const Plan = require("../models/Plan.model");
+const Comment = require("../models/Comment.model");
 const { findById, findByIdAndUpdate } = require("../models/Plan.model");
 
 router.get("/", (req, res, next) => {
@@ -64,7 +65,7 @@ router.get("/plans/:planId/comments", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-//Post route
+//Post routes
 router.post("/plans", isAuthenticated, (req, res, next) => {
   console.log(req.body);
   Plan.create({
@@ -107,7 +108,7 @@ router.post("/plans/:planId/comments", (req, res, next) => {
 
 router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
   Plan.findByIdAndUpdate(req.params.planId, req.body, { new: true })
-    .populate("comments")
+    // .populate("comments")
     .then((plan) => {
       res.json(plan);
     })
