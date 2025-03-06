@@ -33,17 +33,6 @@ router.get("/plans/public", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/plans/:userId/created-plans", (req, res, next) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .populate("createdPlans")
-    .then((user) => {
-      console.log("Planes creados:", user.createdPlans);
-      res.status(200).json(user.createdPlans);
-    })
-    .catch((err) => next(err));
-});
-
 router.get("/plans/:planId", (req, res, next) => {
   const { planId } = req.params;
   Plan.findById(planId)
@@ -68,7 +57,7 @@ router.get("/plans/:planId/comments", (req, res, next) => {
 
 //Post routes
 router.post("/plans", isAuthenticated, (req, res, next) => {
-  const { userId } = req.params;
+  const userId = req.payload._id;
   Plan.create({
     user: userId,
     title: req.body.title,
@@ -80,10 +69,17 @@ router.post("/plans", isAuthenticated, (req, res, next) => {
     image: req.body.image,
     comments: req.body.comments,
   })
-    .then((createPlan) => {
-      res.status(201).json(createPlan);
+    .then((createdPlan) => {
+      return User.findByIdAndUpdate(
+        userId,
+        { $push: { createdPlans: createdPlan._id } },
+        { new: true }
+      ).then(() => res.status(201).json(createdPlan));
     })
-    .catch((err) => next(err));
+    .catch((error) => {
+      console.error("Error al crear el plan:", error.response?.data || error.message);
+      setErrorMessage("Error al crear el plan: " + (error.response?.data?.message || error.message));
+    });
 });
 
 router.post("/plans/:planId/comments", (req, res, next) => {

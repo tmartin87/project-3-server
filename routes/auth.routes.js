@@ -120,9 +120,9 @@ router.post("/login", (req, res, next) => {
 });
 
 //POST /auth/:userId/createdPlans
-router.post("user/:userId/createdPlans", isAuthenticated, (req, res, next) => {
+router.post("/user/:userId/createdPlans", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
- 
+
   Plan.create({
     user: userId,
     title: req.body.title,
@@ -135,7 +135,11 @@ router.post("user/:userId/createdPlans", isAuthenticated, (req, res, next) => {
     comments: req.body.comments,
   })
     .then((createPlan) => {
-      res.status(201).json(createPlan);
+      return User.findByIdAndUpdate(
+        userId,
+        { $push: { createdPlans: createPlan._id } },
+        { new: true }
+      ).then(() => res.status(201).json(createPlan));
     })
     .catch((err) => next(err));
 });
@@ -192,14 +196,15 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
 //GET /auth/user/:userId/created-plans
 router.get("/user/:userId/created-plans", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
-  User.findById(userId)
-    .populate("createdPlans")
-    .then((user) => {
-      res.status(200).json(user.createdPlans);
+  Plan.find({ user: userId })
+    .then((plans) => {
+      if (!plans || plans.length === 0) {
+        return res.status(404).json({ message: "Aún no has creado planes." });
+      }
+      res.status(200).json(plans);
     })
     .catch((err) => next(err));
 });
-
 //GET /auth/user/:userId/my-plans
 router.get("/user/:userId/my-plans", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
