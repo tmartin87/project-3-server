@@ -118,11 +118,15 @@ router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
 // Delete route
 
 router.delete("/plans/:planId", isAuthenticated, (req, res, next) => {
-  Plan.findByIdA(req.params.planId)
-    .then((plan) => {
-      res.json(plan);
-    })
-    .catch((err) => next(err));
+  Plan.findById(req.params.planId)
+  .then((plan) => {
+    if (!plan.user == req.payload._id) {
+      return res.status(403).json({ message: "No se puede borrar" });
+    }
+    return Plan.findByIdAndDelete(req.params.planId);
+  })
+  .then(() => res.json({ message: "Comentario eliminado" }))
+  .catch((err) => next(err));
 });
 
 module.exports = router;
