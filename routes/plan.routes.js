@@ -118,7 +118,7 @@ router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
 // Delete route
 
 router.delete("/plans/:planId", isAuthenticated, (req, res, next) => {
-  Plan.findByIdAndDelete(req.params.planId)
+  Plan.findByIdA(req.params.planId)
     .then((plan) => {
       res.json(plan);
     })
