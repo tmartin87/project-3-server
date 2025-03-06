@@ -8,6 +8,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 //import models
 const Plan = require("../models/Plan.model");
 const Comment = require("../models/Comment.model");
+const User = require("../models/User.model");
 const { findById, findByIdAndUpdate } = require("../models/Plan.model");
 
 router.get("/", (req, res, next) => {
@@ -32,7 +33,7 @@ router.get("/plans/public", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/plans/:userId/my-created-plans", (req, res, next) => {
+router.get("/plans/:userId/created-plans", (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
     .populate("createdPlans")
@@ -67,9 +68,9 @@ router.get("/plans/:planId/comments", (req, res, next) => {
 
 //Post routes
 router.post("/plans", isAuthenticated, (req, res, next) => {
-  console.log(req.body);
-  Plan.create({ 
-    user: req.body.user,
+  const { userId } = req.params;
+  Plan.create({
+    user: userId,
     title: req.body.title,
     details: req.body.details,
     date: req.body.date,

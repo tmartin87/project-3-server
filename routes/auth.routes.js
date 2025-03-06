@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
+const Plan = require("../models/Plan.model.js");
 
 // Require necessary (isAuthenticated) middleware in order to control access to specific routes
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
@@ -116,6 +117,27 @@ router.post("/login", (req, res, next) => {
       }
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+});
+
+//POST /auth/:userId/createdPlans
+router.post("user/:userId/createdPlans", isAuthenticated, (req, res, next) => {
+  const { userId } = req.params;
+ 
+  Plan.create({
+    user: userId,
+    title: req.body.title,
+    details: req.body.details,
+    date: req.body.date,
+    isPrivate: req.body.isPrivate,
+    location: req.body.location,
+    frequency: req.body.frequency,
+    image: req.body.image,
+    comments: req.body.comments,
+  })
+    .then((createPlan) => {
+      res.status(201).json(createPlan);
+    })
+    .catch((err) => next(err));
 });
 
 //PUT  /auth/:userId  - Edit user profile
