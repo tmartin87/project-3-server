@@ -107,11 +107,14 @@ router.post("/plans/:planId/comments", (req, res, next) => {
 // Put route
 
 router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
-  Plan.findByIdAndUpdate(req.params.planId, req.body, { new: true })
-    // .populate("comments")
+  Plan.findById(req.params.planId)
     .then((plan) => {
-      res.json(plan);
+      if (!plan.user == req.payload._id) {
+        return res.status(403).json({ message: "No se puede editar" });
+      }
+      return Plan.findByIdAndUpdate(req.params.planId, req.body, { new: true });
     })
+    .then(() => res.json({ message: "Plan editado" }))
     .catch((err) => next(err));
 });
 
@@ -119,14 +122,14 @@ router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
 
 router.delete("/plans/:planId", isAuthenticated, (req, res, next) => {
   Plan.findById(req.params.planId)
-  .then((plan) => {
-    if (!plan.user == req.payload._id) {
-      return res.status(403).json({ message: "No se puede borrar" });
-    }
-    return Plan.findByIdAndDelete(req.params.planId);
-  })
-  .then(() => res.json({ message: "Comentario eliminado" }))
-  .catch((err) => next(err));
+    .then((plan) => {
+      if (!plan.user == req.payload._id) {
+        return res.status(403).json({ message: "No se puede borrar" });
+      }
+      return Plan.findByIdAndDelete(req.params.planId);
+    })
+    .then(() => res.json({ message: "Plan eliminado" }))
+    .catch((err) => next(err));
 });
 
 module.exports = router;
