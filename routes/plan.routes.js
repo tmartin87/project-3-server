@@ -53,7 +53,7 @@ router.get("/plans/:planId/comments", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/plans/:planId/attendance", isAuthenticated, (req, res, next) => {
+router.get("/plans/:planId/attendance", (req, res, next) => {
   const { planId } = req.params;
   Plan.findById(planId)
   .populate("attendance", "name image")
