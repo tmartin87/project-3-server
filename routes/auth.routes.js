@@ -130,35 +130,50 @@ router.put("/:userId", isAuthenticated, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.put("/user/:userId/my-plans", isAuthenticated, (req, res, next) => {
+// router.put("/user/:userId/my-plans", isAuthenticated, async (req, res, next) => {
+//   const { userId } = req.params;
+//   const { planId } = req.body;
+//   try {
+//     const user = await User.findById(userId);
+//     const plan = await Plan.findById(planId);
+
+//     if (!user || !plan) {
+//       return res.status(404).json({ message: "Usuario o plan no encontrado" });
+//     }
+//     if (user.myPlans.includes(planId)) {
+//       return res.status(400).json({ message: "Ya estás apuntado a este plan" });
+//     }
+
+//     Plan.findByIdAndUpdate(
+//       planId,
+//       { $push: { attendance: userId } },
+//       { new: true }
+//     );
+
+//     res.status(200).json({ message: "Te has apuntado al plan" });
+//   } catch (err) {
+//     console.error("Error en la solicitud:", err); 
+//     next(err);
+//   }
+// });
+
+router.put("/:userId/my-plans", isAuthenticated, (req, res, next) => {
   const { userId } = req.params;
   const { planId } = req.body;
-  try {
-    const user = User.findById(userId);
-    const plan = Plan.findById(planId);
+  User.findByIdAndUpdate(
+    userId,
+    {
+      $push: {
+        myPlans: planId,
+      },
+    },
+    { new: true }
+  )
+    .then((user) => {
+      res.json(user);
+    })
 
-    if (!user || !plan) {
-      return res.status(404).json({ message: "Usuario o plan no encontrado" });
-    }
-    if (user.myPlans.includes(planId)) {
-      return res.status(400).json({ message: "Ya estás apuntado a este plan" });
-    }
-
-    User.findByIdAndUpdate(
-      userId,
-      { $push: { myPlans: planId } },
-      { new: true }
-    );
-    Plan.findByIdAndUpdate(
-      planId,
-      { $push: { attendance: userId } },
-      { new: true }
-    );
-
-    res.status(200).json({ message: "Te has apuntado al plan" });
-  } catch (err) {
-    next(err);
-  }
+    .catch((err) => next(err));
 });
 
 
