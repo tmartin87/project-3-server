@@ -24,12 +24,12 @@ const UserSchema = new Schema(
       default:
         "https://static-00.iconduck.com/assets.00/profile-major-icon-1024x1024-9rtgyx30.png",
     },
-    createdPlans: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Plan",
-      },
-    ],
+    // createdPlans: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Plan",
+    //   },
+    // ],
     comments: [
       {
         type: Schema.Types.ObjectId,
