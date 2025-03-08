@@ -119,6 +119,8 @@ https://github.com/martxgomez/project-3-client
 - 📧 Email: ferramolafvm@gmail.com
 - 🐱 GitHub: rferramola
 - 🔗 LinkedIn: https://www.linkedin.com/in/rferramola/
-- 
+  
 ### Tomás Martín
 - 📧 Email: tmartindsgn@gmail.com
+- 🐱 GitHub: tmartin87
+- 🔗 LinkedIn: https://www.linkedin.com/in/tomas-martin-46496282
