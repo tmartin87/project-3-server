@@ -1,10 +1,11 @@
+// IMPORTS
 const express = require("express");
 const router = express.Router();
 
-//import model
+// MODELS
 const Comment = require("../models/Comment.model");
 
-//Delete route
+//DELETE ROUTE
 router.delete("/comments/:commentId", (req, res, next) => {
   Comment.findById(req.params.commentId)
     .then((comment) => {

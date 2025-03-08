@@ -1,11 +1,13 @@
+
+// IMPORTS
 const express = require("express");
 const router = express.Router();
 
-//Import isAuthenticated
+// AUTHENTICATION
 
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-//import models
+// MODELS
 const Plan = require("../models/Plan.model");
 const Comment = require("../models/Comment.model");
 const User = require("../models/User.model");
@@ -15,8 +17,7 @@ router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
-//Plans Routes
-//Routes get
+// GET ROUTES
 router.get("/plans", (req, res, next) => {
   Plan.find({})
     .then((allPlans) => {
@@ -55,7 +56,7 @@ router.get("/plans/:planId/comments", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-//Post routes
+// POST ROUTES
 router.post("/plans", isAuthenticated, (req, res, next) => {
   const userId = req.payload._id;
   Plan.create({
@@ -101,8 +102,7 @@ router.post("/plans/:planId/comments", (req, res, next) => {
     });
 });
 
-// Put route
-
+// PUT ROUTES
 router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
   Plan.findById(req.params.planId)
     .then((plan) => {
@@ -115,8 +115,7 @@ router.put("/plans/:planId", isAuthenticated, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-// Delete route
-
+// DELETE ROUTE
 router.delete("/plans/:planId", isAuthenticated, (req, res, next) => {
   Plan.findById(req.params.planId)
     .then((plan) => {
